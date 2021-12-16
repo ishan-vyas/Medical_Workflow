@@ -17,45 +17,52 @@ import Home from './Home';
 
 function App() {
 
-  const [patientsList, setPatientsList] = useState([]);
-  const [currentPage, setCurentPage] = useState(1);
-  const paitentsPerPage = 5;
+  // const [patientsList, setPatientsList] = useState([]);
+  // const [currentPage, setCurentPage] = useState(1);
+  // const paitentsPerPage = 5;
 
-  const addPatientHandler = patient => {
-    Axios.post("http://localhost:3001/api/insert", patient)
+  // const addPatientHandler = patient => {
+  //   Axios.post("http://localhost:3001/api/insert", patient)
     
-    setPatientsList([...patientsList, patient]);
-  };
+  //   setPatientsList([...patientsList, patient]);
+  // };
 
-  useEffect(() => {
-    Axios.get("http://localhost:3001/api/get").then((response) => {
-      console.log("DATA FROM SQL")
-      console.log(response.data);
-      console.log("DATA FROM PATIENTS")
-      //console.log(patients1);
-      setPatientsList(response.data);
-    })
-  }, []);
+  // useEffect(() => {
+  //   Axios.get("http://localhost:3001/api/get").then((response) => {
+  //     console.log("DATA FROM SQL")
+  //     console.log(response.data);
+  //     console.log("DATA FROM PATIENTS")
+  //     //console.log(patients1);
+  //     setPatientsList(response.data);
+  //   })
+  // }, []);
 
-  // Get Currnt posts
-  const indexOfLastPatient = currentPage * paitentsPerPage;
-  const indexOfFirstPatient = indexOfLastPatient - paitentsPerPage;
-  const currentPatients = patientsList.slice(indexOfFirstPatient, indexOfLastPatient);
+  // // Get Currnt posts
+  // const indexOfLastPatient = currentPage * paitentsPerPage;
+  // const indexOfFirstPatient = indexOfLastPatient - paitentsPerPage;
+  // const currentPatients = patientsList.slice(indexOfFirstPatient, indexOfLastPatient);
 
-  console.log(paitentsPerPage);
-  console.log(patientsList.length);
+  // console.log(paitentsPerPage);
+  // console.log(patientsList.length);
 
-  const paginate = (pageNumber) => {
-    setCurentPage(pageNumber);
-  };
+  // const paginate = (pageNumber) => {
+  //   setCurentPage(pageNumber);
+  // };
 
     return (
-      <div className="App">
-        <CssBaseline />
-        <NavBar />
-        <NewPatient onAddPatient={addPatientHandler}/>
-        <Patient items={currentPatients} ppp={paitentsPerPage} tP={patientsList.length} paginate={paginate} />
-      </div>
+      // <div className="App">
+      //   <CssBaseline />
+      //   <NavBar />
+      //   <NewPatient onAddPatient={addPatientHandler}/>
+      //   <Patient items={currentPatients} ppp={paitentsPerPage} tP={patientsList.length} paginate={paginate} />
+      // </div>
+
+      <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/PatientInfo" element={<PatientInfo />} />
+      </Routes>
+    </Router>
     );
 }
 
