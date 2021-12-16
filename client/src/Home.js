@@ -17,7 +17,8 @@ import PatientInfo from './PatientInfo';
 
 function Home () {
     const [patientsList, setPatientsList] = useState([]);
-  let patients = [{}];
+    const [currentPage, setCurentPage] = useState(1);
+    const paitentsPerPage = 5;
 
   const addPatientHandler = patient => {
     Axios.post("http://localhost:3001/api/insert", patient)
@@ -33,14 +34,26 @@ function Home () {
       //console.log(patients1);
       setPatientsList(response.data);
     })
-  }, [])
+  }, []);
+
+  // Get Currnt posts
+  const indexOfLastPatient = currentPage * paitentsPerPage;
+  const indexOfFirstPatient = indexOfLastPatient - paitentsPerPage;
+  const currentPatients = patientsList.slice(indexOfFirstPatient, indexOfLastPatient);
+
+  console.log(paitentsPerPage);
+  console.log(patientsList.length);
+
+  const paginate = (pageNumber) => {
+    setCurentPage(pageNumber);
+  };
 
     return (
         <div className="App">
             <CssBaseline />
             <NavBar />
             <NewPatient onAddPatient={addPatientHandler}/>
-            <Patient items={patientsList}/>
+            <Patient items={currentPatients} ppp={paitentsPerPage} tP={patientsList.length} paginate={paginate} />
         </div>
     );
 }
