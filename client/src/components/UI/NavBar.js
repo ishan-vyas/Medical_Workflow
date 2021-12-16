@@ -84,7 +84,7 @@ function NavBar () {
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
             <Link to="/">
-            Material-UI
+            Medical Workflow
             </Link>
           </Typography>
           <div className={classes.search}>

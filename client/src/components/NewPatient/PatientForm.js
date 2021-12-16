@@ -1,6 +1,17 @@
 import React, { useState } from "react";
+import TextField from '@material-ui/core/TextField';
+import { alpha, makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button'
+
+const useStyles = makeStyles((theme) => ({
+    inputField: {
+        margin: "1%",
+    },
+  }));
 
 function PatientForm(props){
+
+    const classes = useStyles();
 
     const [enteredSIN, setEnteredSIN] = useState('');
     const [enteredName, setEnteredName] = useState('');
@@ -51,30 +62,71 @@ function PatientForm(props){
 
     return (<form onSubmit={submitHandler}>
         <div>
-            <div>
-                <label>SIN</label>
-                <input type="number" value={enteredSIN} onChange={sinChangeHandler}></input>
+            <div class={classes.inputField}>
+                <TextField
+                    required
+                    id="filled-required"
+                    label="SIN"
+                    type="number" 
+                    value={enteredSIN} 
+                    onChange={sinChangeHandler}
+                    size="small"
+                    fullWidth
+                />
             </div>
-            <div>
-                <label>Name</label>
-                <input type="text" value={enteredName} onChange={nameChangeHandler}></input>
+            <div class={classes.inputField}>
+                <TextField
+                    required
+                    id="filled-required"
+                    label="Name"
+                    type="text" 
+                    value={enteredName} 
+                    onChange={nameChangeHandler}
+                    size="small"
+                    fullWidth
+                />
             </div>
-            <div>
-                <label>Age</label>
-                <input type="number" value={enteredAge} onChange={ageChangeHandler}></input>
+            <div class={classes.inputField}>
+                <TextField
+                    required
+                    id="filled-required"
+                    label="Age"
+                    type="number" 
+                    value={enteredAge} 
+                    onChange={ageChangeHandler}
+                    size="small"
+                    fullWidth
+                />
             </div>
-            <div>
-                <label>Address</label>
-                <input type="text" value={enteredAddress} onChange={addressChangeHandler}></input>
+            <div class={classes.inputField}>
+                <TextField
+                    id="filled"
+                    label="Address"
+                    type="text" 
+                    multiline
+                    rows={4}
+                    value={enteredAddress} 
+                    onChange={addressChangeHandler}
+                    size="small"
+                    fullWidth
+                />
             </div>
-            <div>
-                <label>Phone Number</label>
-                <input type="number" value={enteredPhone} onChange={phoneChangeHandler}></input>
+            <div class={classes.inputField}>
+                <TextField
+                    required
+                    id="filled-required"
+                    label="Phone Number"
+                    type="number" 
+                    value={enteredPhone} 
+                    onChange={phoneChangeHandler}
+                    size="small"
+                    fullWidth
+                />
             </div>
         </div>
         <div>
-            <div>
-                <button type="submit">Add Patient</button>
+            <div class={classes.inputField}>
+                <Button type="submit" variant="contained" color="primary">Add Patient</Button>
             </div>
         </div>
     </form>)
