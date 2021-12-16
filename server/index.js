@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const mysql = require("mysql");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -14,7 +16,20 @@ db.connect(function(err) {
     console.log("Connected!");
 });
 
+app.use(cors());
+app.use(express.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
+app.get("/api/get", (req, res) => {
+    const sqlSelect = "SELECT * FROM patient";
+    db.query(sqlSelect, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+});
+
+/*
 app.get("/", (req,res) => {
     const sqlInsert = "INSERT INTO disease (name) VALUES ('infection');";
     const sqlDelete = "DELETE FROM disease WHERE dsid = 3;";
@@ -23,7 +38,7 @@ app.get("/", (req,res) => {
         console.log("Result: " + result);
         res.send("hello world this is my name jhjh");
     });
-});
+});*/
 
 app.listen(
     3001, () => {

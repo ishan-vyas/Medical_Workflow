@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import './App.css';
 import Button from '@material-ui/core/Button'
+import Axios from 'axios'
 import { CssBaseline } from '@material-ui/core';
 
 import HomeLayout from './components/HomeLayout';
 import NavBar from './components/NavBar';
 import Patient from './components/Patients';
 
-const patients = [
+/*
+const patients1 = [
   {
     pid: 1,
     sin: 123,
@@ -33,19 +35,30 @@ const patients = [
     phone: 1234567893
   },
 ];
+*/
 
-class App extends Component {
+function App() {
 
-  render(){
+  const [patientsList, setPatientsList] = useState([]);
+  let patients = [{}];
+
+  useEffect(() => {
+    Axios.get("http://localhost:3001/api/get").then((response) => {
+      console.log("DATA FROM SQL")
+      console.log(response.data);
+      console.log("DATA FROM PATIENTS")
+      //console.log(patients1);
+      setPatientsList(response.data);
+    })
+  }, [])
+
     return (
       <div className="App">
         <CssBaseline />
         <NavBar />
-        <Patient items={patients}/>
+        <Patient items={patientsList}/>
       </div>
     );
-  }
-  
 }
 
 export default App;
