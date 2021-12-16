@@ -14,11 +14,9 @@ import NavBar from './components/UI/NavBar';
 import Patient from './components/Patient/Patients';
 import NewPatient from './components/NewPatient/NewPatient';
 import PatientInfo from './PatientInfo';
-import Home from './Home';
 
-function App() {
-
-  const [patientsList, setPatientsList] = useState([]);
+function Home () {
+    const [patientsList, setPatientsList] = useState([]);
   let patients = [{}];
 
   const addPatientHandler = patient => {
@@ -38,24 +36,12 @@ function App() {
   }, [])
 
     return (
-      <Router>
-        {/* <div className="App">
-          <CssBaseline />
-          <NavBar />
-          <NewPatient onAddPatient={addPatientHandler}/>
-          <Patient items={patientsList}/> 
-            <Routes>
-              <Route path="/" element={<NewPatient onAddPatient={addPatientHandler}/>} />
-              <Route path="/" element={<Patient items={patientsList}/>} />
-              <Route path="/PatientInfo" element={<PatientInfo/>} />
-            </Routes>
-        </div> */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/PatientInfo" element={<PatientInfo />} />
-        </Routes>
-      </Router>
+    <div className="App">
+        <CssBaseline />
+        <NavBar />
+        <h1>PatientInfo</h1>
+    </div>
     );
 }
 
-export default App;
+export default Home;
