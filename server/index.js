@@ -29,6 +29,22 @@ app.get("/api/get", (req, res) => {
     });
 });
 
+app.post("/api/insert", (req, res) => {
+
+    givenSin = req.body.sin;
+    givenName = req.body.name;
+    givenAge = req.body.age;
+    givenAddress = req.body.address;
+    givenPhone = req.body.phone;
+
+    const sqlInsert = "INSERT INTO patient (sin, name, age, address, phone) VALUES (?,?,?,?,?);";
+    db.query(sqlInsert, [givenSin, givenName, givenAge, givenAddress, givenPhone], (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+});
+
 /*
 app.get("/", (req,res) => {
     const sqlInsert = "INSERT INTO disease (name) VALUES ('infection');";

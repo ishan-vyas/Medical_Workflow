@@ -1,6 +1,7 @@
 import { process_params } from "express/lib/router";
 import PatientItem from "./PatientItem";
 
+
 function Patients(props){
     return <div>
         {props.items.map((item) => (
