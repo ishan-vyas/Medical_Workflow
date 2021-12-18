@@ -32,8 +32,8 @@ app.get("/api/get", (req, res) => {
 app.get("/api/get/info", (req, res) => {
     console.log(req.query.id);
     givenPid = parseInt(req.query.id);
-    const sqlSelect = "SELECT * FROM patient  WHERE patient.pid=? ;";
-    db.query(sqlSelect, [givenPid], (err, result) => {
+    const sqlSelect = "SELECT * FROM patient, conditions WHERE patient.pid=? AND conditions.patient_id=?;";
+    db.query(sqlSelect, [givenPid, givenPid], (err, result) => {
         if (err) throw err;
         console.log(result);
         res.send(result);
