@@ -16,6 +16,38 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `conditions`
+--
+
+DROP TABLE IF EXISTS `conditions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `conditions` (
+  `patient_id` int NOT NULL,
+  `cluster_id` int DEFAULT NULL,
+  `last_visit` int NOT NULL,
+  `diseases` int NOT NULL,
+  `health_issues` int NOT NULL,
+  `medication_prescribed` int NOT NULL,
+  `labtest_results` int NOT NULL,
+  `mr_ct_indication` int NOT NULL,
+  `followup_visit` int NOT NULL,
+  PRIMARY KEY (`patient_id`),
+  CONSTRAINT `patient_id` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`pid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `conditions`
+--
+
+LOCK TABLES `conditions` WRITE;
+/*!40000 ALTER TABLE `conditions` DISABLE KEYS */;
+INSERT INTO `conditions` VALUES (1,1,20211111,1,1,1,2,1,20211117),(3,2,20211113,2,2,2,2,2,20211118),(4,2,20211115,3,3,1,3,3,20211119),(5,4,20211111,4,4,2,4,1,20211118),(6,5,20211113,5,1,1,1,2,20211119),(7,5,20211115,6,2,2,2,3,20211117),(8,3,20211201,1,3,1,3,1,20211205),(9,3,20211212,2,4,2,4,2,20211217),(11,5,20211115,4,2,2,2,1,20211120);
+/*!40000 ALTER TABLE `conditions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `disease`
 --
 
@@ -82,7 +114,7 @@ CREATE TABLE `patient` (
   PRIMARY KEY (`pid`),
   UNIQUE KEY `pid_UNIQUE` (`pid`),
   UNIQUE KEY `sin_UNIQUE` (`sin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +123,38 @@ CREATE TABLE `patient` (
 
 LOCK TABLES `patient` WRITE;
 /*!40000 ALTER TABLE `patient` DISABLE KEYS */;
+INSERT INTO `patient` VALUES (1,123456,'Kevin',21,NULL,1231231234),(3,123457,'Nicole',22,NULL,1231231235),(4,123458,'Cathy',21,NULL,1231231236),(5,123459,'Ishan',20,NULL,1231231266),(6,123483,'Alice',21,NULL,1231231446),(7,123493,'Jaahnvi',21,NULL,1231251446),(8,123214,'Konstantin',21,'',66764450),(9,678857,'Diwij',23,'4844 49 Ave NW',84565424),(11,145145,'Ricky',21,NULL,7675643);
 /*!40000 ALTER TABLE `patient` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `patient_clusters`
+--
+
+DROP TABLE IF EXISTS `patient_clusters`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `patient_clusters` (
+  `cluster_id` int NOT NULL AUTO_INCREMENT,
+  `last_visit` int DEFAULT NULL,
+  `diseases` int DEFAULT NULL,
+  `health_issues` int DEFAULT NULL,
+  `medication_prescribed` int DEFAULT NULL,
+  `labtest_results` int DEFAULT NULL,
+  `mr_ct_indication` int DEFAULT NULL,
+  `followup_visit` int DEFAULT NULL,
+  PRIMARY KEY (`cluster_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `patient_clusters`
+--
+
+LOCK TABLES `patient_clusters` WRITE;
+/*!40000 ALTER TABLE `patient_clusters` DISABLE KEYS */;
+INSERT INTO `patient_clusters` VALUES (1,20211111,1,1,1,2,1,20211117),(2,20211114,3,3,2,3,3,20211119),(3,20211207,2,4,2,4,2,20211211),(4,20211111,4,4,2,4,1,20211118),(5,20211114,5,2,2,2,2,20211119);
+/*!40000 ALTER TABLE `patient_clusters` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -103,4 +166,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-15 16:45:40
+-- Dump completed on 2021-12-17 22:04:42
