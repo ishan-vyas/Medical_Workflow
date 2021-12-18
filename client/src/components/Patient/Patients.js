@@ -25,6 +25,7 @@ function Patients(props){
     return <div class={classes.root}>
         {props.items.map((item) => (
             <PatientItem 
+                pid={item.pid}
                 name={item.name}
                 age={item.age}
             />

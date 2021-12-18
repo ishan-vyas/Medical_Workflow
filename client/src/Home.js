@@ -13,7 +13,7 @@ import HomeLayout from './components/UI/HomeLayout';
 import NavBar from './components/UI/NavBar';
 import Patient from './components/Patient/Patients';
 import NewPatient from './components/NewPatient/NewPatient';
-import PatientInfo from './PatientInfo';
+import PatientInfo from './components/Patient/PatientInfo';
 
 function Home () {
     const [patientsList, setPatientsList] = useState([]);
@@ -21,7 +21,7 @@ function Home () {
     const paitentsPerPage = 5;
 
   const addPatientHandler = patient => {
-    Axios.post("http://localhost:3001/api/insert", patient)
+    Axios.post("http://localhost:3001/api/insert", patient);
     
     setPatientsList([...patientsList, patient]);
   };
