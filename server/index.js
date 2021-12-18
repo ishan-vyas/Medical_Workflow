@@ -29,6 +29,17 @@ app.get("/api/get", (req, res) => {
     });
 });
 
+app.get("/api/get/info", (req, res) => {
+    console.log(req.query.id);
+    givenPid = parseInt(req.query.id);
+    const sqlSelect = "SELECT * FROM patient  WHERE patient.pid=? ;";
+    db.query(sqlSelect, [givenPid], (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+});
+
 app.post("/api/insert", (req, res) => {
 
     givenSin = req.body.sin;
