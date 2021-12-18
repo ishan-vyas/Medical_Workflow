@@ -6,7 +6,7 @@ import {
   Link
 } from "react-router-dom";
 
-import PatientInfo from '../../PatientInfo';
+import PatientInfo from './PatientInfo';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -57,6 +57,9 @@ function getInitials(name){
 };
 
 export default function PatientItem(props) {
+
+  console.log("name", props.pid);
+
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -65,7 +68,7 @@ export default function PatientItem(props) {
   };
 
   return (
-    <Link to="/PatientInfo">
+    <Link to={`PatientInfo/${props.pid.toString()}`}>
       <Card className={classes.root}>
         <CardHeader
           avatar={
