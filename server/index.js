@@ -4,6 +4,19 @@ const mysql = require("mysql");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
+const kmeans = require('node-kmeans');
+const { restart } = require("nodemon");
+
+function generateClusters(data){
+    let result = {};
+    kmeans.clusterize(data, {k: 5}, (err,res) => {
+        if (err) console.error(err);
+        else console.log('%o',res);
+        result = res;
+    });
+    return result;
+}
+
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -24,7 +37,7 @@ app.get("/api/get", (req, res) => {
     const sqlSelect = "SELECT * FROM patient";
     db.query(sqlSelect, (err, result) => {
         if (err) throw err;
-        console.log(result);
+        //console.log(result);
         res.send(result);
     });
 });
@@ -33,10 +46,21 @@ app.get("/api/getPid", (req, res) => {
     const sqlSelect = "SELECT MAX(patient.pid) AS maxPid FROM patient";
     db.query(sqlSelect, (err, result) => {
         if (err) throw err;
-        console.log(result);
+        //console.log(result);
         res.send(result);
     });
 });
+/*
+app.get("/information", (req, res) => {
+    const givenData = req.query.arrayV;
+    console.log(req.query.arrayV);
+    
+    kmeans.clusterize([ [1,2,1], [1,2,1], [1,2,6], [6,5,3], [7,4,2], [7,3,1] ], {k: 5}, (error,result) => {
+        if (error) console.error(error);
+        else //console.log('%o',result);
+        res.send("result");
+    });
+})*/
 
 app.get("/api/get/info", (req, res) => {
     console.log(req.query.id);
@@ -81,42 +105,36 @@ app.post("/api/insert", (req, res) => {
     
 });
 
-/*
-app.get("/", (req,res) => {
-    const sqlInsert = "INSERT INTO disease (name) VALUES ('infection');";
-    const sqlDelete = "DELETE FROM disease WHERE dsid = 3;";
-    db.query(sqlDelete, (err, result) => {
+
+app.get("/api/get/conditions", (req,res) => {
+    const sqlGet = "SELECT patient_id, last_visit, diseases, health_issues, medication_prescribed, labtest_results, mr_ct_indication, followup_visit FROM conditions;";
+    db.query(sqlGet, (err, result) => {
         if (err) throw err;
-        console.log("Result: " + result);
-        res.send("hello world this is my name jhjh");
+        // console.log(result);
+
+        let indexMap = {};
+        for (let j = 0; j < result.length; j++){
+            indexMap[j] = result[j]['patient_id'];
+        }
+
+        let vectors = [];
+        for (let i = 0 ; i < result.length ; i++) {
+            vectors[i] = [ result[i]['last_visit'], result[i]['diseases'], result[i]['health_issues'], result[i]['medication_prescribed'], result[i]['labtest_results'], result[i]['mr_ct_indication'], result[i]['followup_visit'],];
+        }
+
+        kmeans.clusterize(vectors, {k: 5}, (err1,res1) => {
+            if (err1) console.error(err1);
+            else // console.log('%o',res1);
+            res.send(
+                {
+                    indexMap: indexMap,
+                    data: result,
+                    clusters: res1
+                }
+            );
+        });
     });
-});*/
-
-// app.get("/api/get/clusters", (req, res) => {
-//     // console.log("iAM HERS");
-//     // const sqlSelect1 = "CALL kmeans_medical(5)";
-//     // db.query(sqlSelect1, (err, result) => {
-//     //     console.log("QUERY 1");
-//     //     if (err){
-//     //         console.log(err);
-//     //         throw err;
-//     //     } 
-//     //     console.log(result);
-//     // });
-    
-    
-//     // const sqlSelectClusters = "SELECT * FROM conditions GROUP BY cluster_id";
-//     // db.query(sqlSelectClusters, (err, result) => {
-//     //     console.log("QUERY 2");
-//     //     if (err){
-//     //         console.log(err);
-//     //         throw err;
-//     //     }
-//     //     console.log(result);
-//     //     res.send(result);
-//     // });
-
-// });
+});
 
 app.listen(
     3001, () => {
