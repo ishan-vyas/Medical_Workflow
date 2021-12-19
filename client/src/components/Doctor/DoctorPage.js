@@ -4,7 +4,7 @@ import Axios from 'axios';
 import { Box, CssBaseline } from '@material-ui/core';
 import NavBar from '../UI/NavBar';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
 
 // To be changes for getting data from cluster
 function DoctorPage () {
@@ -23,7 +23,7 @@ function DoctorPage () {
     for(var i = 0; i < patientData.clusters.length; i++){
       clusterIndex[i] = patientData.clusters[i].clusterInd;
     }
-    console.log(clusterIndex);
+    console.log("Here: ", clusterIndex);
 
     let patientIndex = [ [], [], [], [], []];
     for(var j = 0; j < patientData.clusters.length; j++){
@@ -37,17 +37,24 @@ function DoctorPage () {
     }
     console.log(patientIndex);
 
+    
+
     let patientInfo = [[],[],[],[],[]];
-    for(var h = 0; h < patientIndex.length; h++){
-      //console.log(patientInfo[h]);
-      for(var n = 0; n < patientIndex[h].length; n++){
-        let info = { id: patientIndex[h][n] };
-        Axios.get("http://localhost:3001/api/get/info", {params: info}).then((response) => {
-          console.log(response.data[0]);
-          //patientInfo[h].append(response.data[0]);
+
+    async function storePat(i, inf){
+        await Axios.get("http://localhost:3001/api/get/info", {params: inf}).then((response) => {
+            console.log(response.data[0]);
+            patientInfo[i].push(response.data[0]);
         });
+    }
+    for(var h = 0; h < patientIndex.length; h++){
+      for(var n = 0; n < clusterIndex[h].length; n++){
+        let info = { id: patientIndex[h][n] };
+        // get the patient and store it in the cluster in patienInfo
+        storePat(h, info);
       }
     }
+    console.log("Test: ",patientInfo);
     
     // console.log(clusterIndex);
     // console.log(patientIndex);
@@ -63,6 +70,7 @@ function DoctorPage () {
         <Button variant="contained" color="primary">Generate Schedule</Button>
         <div>
           <h1>Cluster 1</h1>
+          <></>
         </div>
         <div>
           <h1>Cluster 2</h1>
