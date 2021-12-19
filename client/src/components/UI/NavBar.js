@@ -8,6 +8,7 @@ import InputBase from '@material-ui/core/InputBase';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import { Link, Router } from 'react-router-dom';
+import { common } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+    justifyContent: 'center',
   },
   search: {
     position: 'relative',
@@ -81,9 +83,15 @@ function NavBar () {
             aria-label="open drawer"
           >
             <MenuIcon />
+            
           </IconButton>
+          <Typography  variant="h6" noWrap>
+            <Link to="/DoctorPage" style={{color: 'white',}}>
+              Doctor Page
+            </Link>
+          </Typography>
           <Typography className={classes.title} variant="h6" noWrap>
-            <Link to="/">
+            <Link to="/" style={{color: 'white',}}>
             Medical Workflow
             </Link>
           </Typography>
