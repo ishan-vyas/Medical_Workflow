@@ -58,8 +58,6 @@ function getInitials(name){
 
 export default function PatientItem(props) {
 
-  console.log("name", props.pid);
-
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 

@@ -29,8 +29,8 @@ function NewPatient(props){
         props.onAddPatient(patientData);
     }
 
-    return <div class={classes.root}>
-            <Container maxWidth="sm" class={classes.containerStyle}>
+    return <div className={classes.root}>
+            <Container maxWidth="sm" className={classes.containerStyle}>
                 <PatientForm onSavePatientData={savePatientDataHandler} />
             </Container>
         </div>

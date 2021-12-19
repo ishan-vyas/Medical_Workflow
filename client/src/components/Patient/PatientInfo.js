@@ -7,14 +7,13 @@ import NavBar from '../UI/NavBar';
 
 function PatientInfo () {
 
-  const [patientInfo, setPatientInfo] = useState('');
   const parameters = useParams();
 
   useEffect(() => {
     let info = { id: parameters.pid };
-    console.log(info);
     Axios.get("http://localhost:3001/api/get/info", {params: info});
   }, []);
+
 
   return (
   <div>

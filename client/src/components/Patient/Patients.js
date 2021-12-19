@@ -22,9 +22,12 @@ function Patients(props){
         props.paginate(pageNum);
     }
 
-    return <div class={classes.root}>
+    console.log(props.items);
+
+    return <div className={classes.root}>
         {props.items.map((item) => (
             <PatientItem 
+                key={item.pid}
                 pid={item.pid}
                 name={item.name}
                 age={item.age}
