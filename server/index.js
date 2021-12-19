@@ -67,6 +67,32 @@ app.get("/", (req,res) => {
     });
 });*/
 
+// app.get("/api/get/clusters", (req, res) => {
+//     // console.log("iAM HERS");
+//     // const sqlSelect1 = "CALL kmeans_medical(5)";
+//     // db.query(sqlSelect1, (err, result) => {
+//     //     console.log("QUERY 1");
+//     //     if (err){
+//     //         console.log(err);
+//     //         throw err;
+//     //     } 
+//     //     console.log(result);
+//     // });
+    
+    
+//     // const sqlSelectClusters = "SELECT * FROM conditions GROUP BY cluster_id";
+//     // db.query(sqlSelectClusters, (err, result) => {
+//     //     console.log("QUERY 2");
+//     //     if (err){
+//     //         console.log(err);
+//     //         throw err;
+//     //     }
+//     //     console.log(result);
+//     //     res.send(result);
+//     // });
+
+// });
+
 app.listen(
     3001, () => {
         console.log("running on port 3001");
