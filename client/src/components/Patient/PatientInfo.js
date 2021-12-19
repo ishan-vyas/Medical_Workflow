@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button'
 import Axios from 'axios'
 import { Box, CssBaseline } from '@material-ui/core';
 import NavBar from '../UI/NavBar';
-import Avatar from '@material-ui/core/Avatar';
 import { red } from '@material-ui/core/colors';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import styles from './PatientInfo.module.css';
@@ -47,18 +44,12 @@ const mr_ct_indication = {
   3: "None",
 };
 
-
-function getInitials2(name){
-  // Code from https://stackoverflow.com/questions/33076177/getting-name-initials-using-js
-  let rgx = new RegExp(/(\p{L}{1})\p{L}+/, 'gu');
-
-  let initials = [...name.matchAll(rgx)] || [];
-
-  initials = (
-    (initials.shift()?.[1] || '') + (initials.pop()?.[1] || '')
-  ).toUpperCase();
-  return initials;
-};
+function toDate(num) {
+  num = num.toString();
+  console.log('Date in string', num);
+  const newDate = num.substring(0, 4) + '/' + num.substring(4, 6) + '/' + num.substring(6, 8);
+  return newDate;
+}
 
 function PatientInfo () {
 
@@ -75,7 +66,7 @@ function PatientInfo () {
     });
   }, []);
 
-  console.log(patientInfo.medication_prescribed);
+  // console.log(patientInfo.medication_prescribed);
 
   return (
   <div>
@@ -93,11 +84,14 @@ function PatientInfo () {
             <h1>Patient: {patientInfo.patient_id}</h1>
             <p><b>Name:</b> {patientInfo.name}</p>
             <p><b>Age:</b> {patientInfo.age}</p>
+            <p><b>Address:</b> {patientInfo.address}</p>
           </div>
           <div className={styles.pat_inf}>
-            <p><b>Address:</b> {patientInfo.address}</p>
+            
             <p><b>SIN:</b> {patientInfo.sin}</p>
             <p><b>Phone Number:</b> {patientInfo.phone}</p>
+            <p><b>Last Visit Date: </b>{toDate(patientInfo.last_visit)}</p>
+            <p><b>Follow-Up Visit Date: </b>{toDate(patientInfo.followup_visit)}</p>
           </div>
         </div>
         
@@ -113,9 +107,9 @@ function PatientInfo () {
             <p>MRI/CT Scan Indications: {mr_ct_indication[patientInfo.mr_ct_indication]}</p>
             <Box className="CTImg">
               <img
-                src={ (patientInfo.mr_ct_indication == 1)
+                src={ (patientInfo.mr_ct_indication === 1)
                   ? MajorImg
-                  : ((patientInfo.mr_ct_indication == 2)
+                  : ((patientInfo.mr_ct_indication === 2)
                     ? MinorImg : NoneImg)
                 }
                 
