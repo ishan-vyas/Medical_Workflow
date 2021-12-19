@@ -16,31 +16,38 @@ import PatientInfo from './components/Patient/PatientInfo';
 function Home () {
     const [patientsList, setPatientsList] = useState([]);
     const [currentPage, setCurentPage] = useState(1);
+    const [maxPid, setMaxPid] = useState(0);
     const paitentsPerPage = 5;
 
+    const indexOfLastPatient = currentPage * paitentsPerPage;
+    const indexOfFirstPatient = indexOfLastPatient - paitentsPerPage;
+
   const addPatientHandler = patient => {
+    patient = {
+      ...patient,
+      pid: maxPid+1,
+    }
     Axios.post("http://localhost:3001/api/insert", patient);
-    
-    setPatientsList([...patientsList, patient]);
+    console.log("adding a patient",patient);
+    setPatientsList([...patientsList,patient]);
+    setMaxPid(maxPid+1);
   };
 
   useEffect(() => {
     Axios.get("http://localhost:3001/api/get").then((response) => {
-      console.log("DATA FROM SQL")
-      console.log(response.data);
-      console.log("DATA FROM PATIENTS")
       //console.log(patients1);
+      console.log("running again", response.data);
       setPatientsList(response.data);
+    })
+    Axios.get("http://localhost:3001/api/getPid").then((response) => {
+      //console.log(patients1);
+      console.log("getting pid", response.data[0].maxPid);
+      setMaxPid(response.data[0].maxPid);
     })
   }, []);
 
-  // Get Currnt posts
-  const indexOfLastPatient = currentPage * paitentsPerPage;
-  const indexOfFirstPatient = indexOfLastPatient - paitentsPerPage;
+  // Get Current posts
   const currentPatients = patientsList.slice(indexOfFirstPatient, indexOfLastPatient);
-
-  console.log(paitentsPerPage);
-  console.log(patientsList.length);
 
   const paginate = (pageNumber) => {
     setCurentPage(pageNumber);
