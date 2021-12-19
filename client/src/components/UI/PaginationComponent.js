@@ -17,7 +17,6 @@ function PaginationComponent(props){
     const classes = useStyles();
 
     const pageNumbers = Math.ceil(props.totalPatients / props.patientsPerPage);
-    console.log(pageNumbers);
 
     const paginate = (page) => {
         let pageNum = page.target.innerText;
@@ -26,7 +25,7 @@ function PaginationComponent(props){
     };
 
     return (
-        <div class={classes.root}>
+        <div className={classes.root}>
             <Pagination onChange={paginate} count={pageNumbers} variant="outlined" shape="rounded" />
         </div>
     );
