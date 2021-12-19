@@ -8,42 +8,74 @@ import Button from '@material-ui/core/Button'
 
 // To be changes for getting data from cluster
 function DoctorPage () {
-  const [patientConditions, setPatientConditions] = useState({});
+  const [patientData, setPatientData] = useState({});
   const parameters = useParams();
 
   useEffect(() => {
     Axios.get("http://localhost:3001/api/get/conditions").then((response) => {
-      console.log(response.data);
-      setPatientConditions(response.data);
+      // console.log(response.data);
+      setPatientData(response.data);
     });
   }, []);
 
-  function generateArray(){
-
-    let indexMap = {};
-    for (let j = 0; j < patientConditions.length; j++){
-      indexMap[j] = patientConditions[j]['patient_id'];
+  const getClusters = () => {
+    let clusterIndex = {};
+    for(var i = 0; i < patientData.clusters.length; i++){
+      clusterIndex[i] = patientData.clusters[i].clusterInd;
     }
-    // console.log(indexMap);
+    console.log(clusterIndex);
 
-    let vectors = [];
-    for (let i = 0 ; i < patientConditions.length ; i++) {
-      vectors[i] = [ patientConditions[i]['last_visit'], patientConditions[i]['diseases'], patientConditions[i]['health_issues'], patientConditions[i]['medication_prescribed'], patientConditions[i]['labtest_results'], patientConditions[i]['mr_ct_indication'], patientConditions[i]['followup_visit'],];
+    let patientIndex = [ [], [], [], [], []];
+    for(var j = 0; j < patientData.clusters.length; j++){
+      // console.log("j : ", j);
+      // console.log("len : ",clusterIndex[j].length);
+      for(var k = 0; k < clusterIndex[j].length; k++){
+        // console.log("RUNN",patientData.indexMap[clusterIndex[j][k]]);
+        patientIndex[j][k] = patientData.indexMap[clusterIndex[j][k]];
+        // console.log(patientIndex[j][k]);
+      }
     }
-    // console.log(vectors);
+    console.log(patientIndex);
 
-    Axios.get("http://localhost:3001/information", { params: {arrayV: vectors} }).then((response) => {
-      console.log(response);
-    });
-  }
+    let patientInfo = [[],[],[],[],[]];
+    for(var h = 0; h < patientIndex.length; h++){
+      //console.log(patientInfo[h]);
+      for(var n = 0; n < patientIndex[h].length; n++){
+        let info = { id: patientIndex[h][n] };
+        Axios.get("http://localhost:3001/api/get/info", {params: info}).then((response) => {
+          console.log(response.data[0]);
+          //patientInfo[h].append(response.data[0]);
+        });
+      }
+    }
+    
+    // console.log(clusterIndex);
+    // console.log(patientIndex);
+    // console.log(patientInfo);
+  };
 
   return (
   <div>
       <CssBaseline />
       <NavBar />
       <div>
-        <Button variant="contained" color="primary" onClick={generateArray}>Generate Clusters</Button>
+        <Button variant="contained" color="primary" onClick={getClusters}>Generate Clusters</Button>
         <Button variant="contained" color="primary">Generate Schedule</Button>
+        <div>
+          <h1>Cluster 1</h1>
+        </div>
+        <div>
+          <h1>Cluster 2</h1>
+        </div>
+        <div>
+          <h1>Cluster 3</h1>
+        </div>
+        <div>
+          <h1>Cluster 4</h1> 
+        </div>
+        <div>
+          <h1>Cluster 5</h1> 
+        </div>
       </div>
       <div>
           
