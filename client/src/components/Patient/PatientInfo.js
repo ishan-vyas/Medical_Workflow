@@ -44,7 +44,7 @@ const mr_ct_indication = {
   3: "None",
 };
 
-function toDate(num) {
+function myToDate(num) {
   num = num.toString();
   console.log('Date in string', num);
   const newDate = num.substring(0, 4) + '/' + num.substring(4, 6) + '/' + num.substring(6, 8);
@@ -90,8 +90,8 @@ function PatientInfo () {
             
             <p><b>SIN:</b> {patientInfo.sin}</p>
             <p><b>Phone Number:</b> {patientInfo.phone}</p>
-            <p><b>Last Visit Date: </b>{toDate(patientInfo.last_visit)}</p>
-            <p><b>Follow-Up Visit Date: </b>{toDate(patientInfo.followup_visit)}</p>
+            <p><b>Last Visit Date: </b>{patientInfo.last_visit}</p>
+            <p><b>Follow-Up Visit Date: </b>{patientInfo.followup_visit}</p>
           </div>
         </div>
         

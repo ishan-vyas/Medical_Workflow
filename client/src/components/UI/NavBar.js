@@ -8,7 +8,9 @@ import InputBase from '@material-ui/core/InputBase';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import { Link, Router } from 'react-router-dom';
-import { common } from '@material-ui/core/colors';
+import Badge from '@material-ui/core/Badge';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import { MenuItem, Menu } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -107,6 +109,22 @@ function NavBar () {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
+          </div>
+          <div>
+            <IconButton aria-label="show 11 new notifications" color="inherit">
+              <Badge badgeContent={11} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            {/* <Menu>
+              <MenuItem>
+                <IconButton aria-label="show 11 new notifications" color="inherit">
+                  <Badge badgeContent={11} color="secondary">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+              </MenuItem>
+            </Menu> */}
           </div>
         </Toolbar>
       </AppBar>

@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.27, for macos11 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.19, for macos10.15 (x86_64)
 --
 -- Host: localhost    Database: medical_workflow
 -- ------------------------------------------------------
@@ -43,7 +43,7 @@ CREATE TABLE `conditions` (
 
 LOCK TABLES `conditions` WRITE;
 /*!40000 ALTER TABLE `conditions` DISABLE KEYS */;
-INSERT INTO `conditions` VALUES (1,1,20211111,1,1,1,2,1,20211117),(3,2,20211113,2,2,2,2,2,20211118),(4,2,20211115,3,3,1,3,3,20211119),(5,4,20211111,4,4,2,4,1,20211118),(6,5,20211113,5,1,1,1,2,20211119),(7,5,20211115,6,2,2,2,3,20211117),(8,3,20211201,1,3,1,3,1,20211205),(9,3,20211212,2,4,2,4,2,20211217),(11,5,20211115,4,2,2,2,1,20211120);
+INSERT INTO `conditions` VALUES (1,NULL,20211111,1,1,1,2,1,20211117),(3,NULL,20211113,2,2,2,2,2,20211118),(4,NULL,20211115,3,3,1,3,3,20211119),(5,NULL,20211111,4,4,2,4,1,20211118),(6,NULL,20211113,5,1,1,1,2,20211119),(7,NULL,20211115,6,2,2,2,3,20211117),(8,NULL,20211201,1,3,1,3,1,20211205),(9,NULL,20211212,2,4,2,4,2,20211217),(11,NULL,20211115,4,2,2,2,1,20211120);
 /*!40000 ALTER TABLE `conditions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,8 +153,34 @@ CREATE TABLE `patient_clusters` (
 
 LOCK TABLES `patient_clusters` WRITE;
 /*!40000 ALTER TABLE `patient_clusters` DISABLE KEYS */;
-INSERT INTO `patient_clusters` VALUES (1,20211111,1,1,1,2,1,20211117),(2,20211114,3,3,2,3,3,20211119),(3,20211207,2,4,2,4,2,20211211),(4,20211111,4,4,2,4,1,20211118),(5,20211114,5,2,2,2,2,20211119);
+INSERT INTO `patient_clusters` VALUES (1,20211111,1,1,1,2,1,20211117),(2,20211113,2,2,2,2,2,20211118),(3,20211115,3,3,1,3,3,20211119),(4,20211111,4,4,2,4,1,20211118),(5,20211113,5,1,1,1,2,20211119);
 /*!40000 ALTER TABLE `patient_clusters` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `problem_treatments`
+--
+
+DROP TABLE IF EXISTS `problem_treatments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `problem_treatments` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `problem_type` varchar(50) NOT NULL,
+  `problem_detail_id` int NOT NULL,
+  `treatment_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `problem_treatments`
+--
+
+LOCK TABLES `problem_treatments` WRITE;
+/*!40000 ALTER TABLE `problem_treatments` DISABLE KEYS */;
+INSERT INTO `problem_treatments` VALUES (1,'Diseases',1,'Insulin'),(2,'Diseases',2,'Chemotherapy'),(3,'Diseases',3,'Liquids, Rest, Painkillers'),(4,'Diseases',4,'ART Medicine'),(5,'Diseases',5,'ART Medicine'),(6,'Diseases',6,'Rest'),(7,'Health Issues',1,'Inhaler'),(8,'Health Issues',2,'Inhaler'),(9,'Health Issues',3,'Statins'),(10,'Health Issues',4,'Rest'),(11,'Medication Prescribed',2,'Prescribe appropriate Medicine'),(12,'Lab Test Results',1,'Appeal expert attention'),(13,'Lab Test Results',2,'Schedule appointment with family doctor'),(14,'Lab Test Results',3,'Consult pharmacist or doctor'),(15,'Lab Test Results',4,'Rest'),(16,'MR/CT Images Indications',1,'Appeal expert attention'),(17,'MR/CT Images Indications',2,'Speak with family doctor'),(18,'MR/CT Images Indications',3,'Rest');
+/*!40000 ALTER TABLE `problem_treatments` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -166,4 +192,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-17 22:04:42
+-- Dump completed on 2021-12-19 21:41:10
