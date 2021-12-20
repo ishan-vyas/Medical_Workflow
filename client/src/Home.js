@@ -12,6 +12,7 @@ import NavBar from './components/UI/NavBar';
 import Patient from './components/Patient/Patients';
 import NewPatient from './components/NewPatient/NewPatient';
 import PatientInfo from './components/Patient/PatientInfo';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 function Home () {
     const [patientsList, setPatientsList] = useState([]);
