@@ -7,6 +7,14 @@ const bodyParser = require("body-parser");
 const kmeans = require('node-kmeans');
 const { restart } = require("nodemon");
 
+const mapProblems = {
+    0: "Diseases",
+    1: "Health Issues",
+    2: "Medication Prescribed",
+    3: "Lab Test Results",
+    4: "MR/CT Images Indications",
+}
+
 function generateClusters(data){
     let result = {};
     kmeans.clusterize(data, {k: 5}, (err,res) => {
@@ -71,6 +79,34 @@ app.get("/api/get/info", (req, res) => {
         // console.log(result);
         res.send(result);
     });
+});
+
+
+app.get("/api/get/patient/treatment", (req, res) => {
+    givenData = req.query.data;
+    console.log("THIS IS THE DATA FROM FRONT",givenData);
+    let treatmentPlan = [];
+
+    async function storeTrt(i){
+        const sqlQuery = "SELECT treatment_name FROM problem_treatments WHERE problem_type =? AND problem_detail_id=?;";
+        return new Promise((resolve, reject) => {
+            db.query(sqlQuery, [mapProblems[i],givenData[i]], (err2, result2) => {
+                if (err2) throw err2;
+                // console.log("result2" , result2);
+                treatmentPlan.push(result2[0]);
+                resolve();
+            });
+          });
+    }
+    async function runQueries(){
+        for(var h = 0; h < givenData.length; h++){
+
+            await storeTrt(h);
+        }
+        res.send(treatmentPlan);  
+    }
+    runQueries();
+    
 });
 
 app.put("/api/update", (req,res) => {
@@ -184,7 +220,10 @@ app.get("/api/get/conditions", (req,res) => {
                     }
                 }
                 // console.log("INFO FROM RUN QUERIES : ", patientInfo);
-                res.send(patientInfo);
+                res.send({
+                    clusters: res1,
+                    pInfo: patientInfo
+                });
             }
             runQueries();
 
