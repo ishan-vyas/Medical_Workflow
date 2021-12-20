@@ -84,7 +84,7 @@ app.get("/api/get/info", (req, res) => {
 
 app.get("/api/get/patient/treatment", (req, res) => {
     givenData = req.query.data;
-    console.log("THIS IS THE DATA FROM FRONT",givenData);
+    console.log("THIS IS THE DATA FROM FRONT : ",givenData);
     let treatmentPlan = [];
 
     async function storeTrt(i){
@@ -103,6 +103,7 @@ app.get("/api/get/patient/treatment", (req, res) => {
 
             await storeTrt(h);
         }
+        console.log(treatmentPlan);
         res.send(treatmentPlan);  
     }
     runQueries();

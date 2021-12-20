@@ -220,6 +220,7 @@ function UpdatePatientForm(props){
         <div>
             <div className={classes.inputField}>
                 <Button type="submit" variant="contained" color="primary">Update Patient Information</Button>
+                <h5>**AFTER UPDATING THE PATIENT INFORMATION PLEASE GENERATE CLUSTERS AGAIN TO UPDATE THE TREATMENT PLAN**</h5>
             </div>
         </div>
     </form>)

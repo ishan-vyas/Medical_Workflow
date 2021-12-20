@@ -65,6 +65,8 @@ const PatientInfo = React.forwardRef((props, ref) => {
 
   const [patientInfo, setPatientInfo] = useState({});
   const [updateBool, setUpdateBool] = useState(0);
+  const [showTreatment, setShowTreatment] = useState(false);
+  const [treatmentPlan, setTreatmentPlan] = useState([{treatment_name : "Please Generate Clusters First"}]);
   const [notifications, setNotifications] = useState(["No Notifications"]);
   const [dateLV, setDateLV] = useState('');
   const [dateFV, setDateFV] = useState('');
@@ -81,6 +83,7 @@ const PatientInfo = React.forwardRef((props, ref) => {
       checkNotifications(response.data[0].last_visit,response.data[0].followup_visit);
       setDateLV(myToDate(response.data[0].last_visit));
       setDateFV(myToDate(response.data[0].followup_visit));
+      getTreatmentInformation();
     });
   }, [updateBool]);
 
@@ -112,28 +115,31 @@ const PatientInfo = React.forwardRef((props, ref) => {
     }
     
   }
-
-  let currentTreatmentCentroid = context[parameters.pid];
-  let treatmentPlan = [];
-  console.log("THIS IS MY INFO: ", currentTreatmentCentroid);
-  if(currentTreatmentCentroid === undefined){
-    console.log("GENERATEE CLUSTER");
-  }else{
-    currentTreatmentCentroid = currentTreatmentCentroid.map((i) => {
-      return Math.round(i);
-    });
-    console.log("ROUNDED CENTROID",currentTreatmentCentroid);
-    getTreatment(currentTreatmentCentroid); 
+  
+  function getTreatmentInformation() {
+    let currentTreatmentCentroid = context[parameters.pid];
+    console.log("THIS IS MY INFO: ", currentTreatmentCentroid);
+    if(currentTreatmentCentroid === undefined){
+      console.log("GENERATEE CLUSTER");
+    }else{
+      currentTreatmentCentroid = currentTreatmentCentroid.map((i) => {
+        return Math.round(i);
+      });
+      console.log("ROUNDED CENTROID",currentTreatmentCentroid);
+      getTreatment(currentTreatmentCentroid); 
+    }
   }
 
   // console.log(patientInfo.medication_prescribed);
+  
   function getTreatment(ctc){
       const info = {
         data: ctc
       }
       Axios.get("http://localhost:3001/api/get/patient/treatment", {params: info}).then((response) => {
       console.log(response.data);
-      treatmentPlan.push(response.data);
+      setTreatmentPlan(response.data);
+      setShowTreatment(true);
       console.log("THIS IS THE TREATMENT PLAN", treatmentPlan);
     });
   }
@@ -181,6 +187,12 @@ const PatientInfo = React.forwardRef((props, ref) => {
             <ul>
               {notifications.map((n) => {
                 return <li>{n}</li>
+              })}
+            </ul>
+            <p><b>Reccomended Treatment Based on Previous Data:</b></p>
+            <ul>
+              {treatmentPlan.map((n) => {
+                return <li>{n.treatment_name}</li>
               })}
             </ul>
             <p><b>MR/CT Scan:</b></p>
