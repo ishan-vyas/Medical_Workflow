@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Axios from 'axios'
 import { Box, CssBaseline } from '@material-ui/core';
@@ -9,6 +9,15 @@ import styles from './PatientInfo.module.css';
 import MinorImg from "../Images/MinorMR.jpeg"
 import MajorImg from "../Images/MajorMR.jpeg"
 import NoneImg from "../Images/NoneMR.jpeg"
+import ClusterContext from '../store/cluster-context';
+
+const mapProblems = {
+  0: "Diseases",
+  1: "Health Issues",
+  2: "Medication Prescribed",
+  3: "Lab Test Results",
+  4: "MR/CT Images Indications",
+}
 
 const diseases = {
   1: "Diabetes",
@@ -51,10 +60,11 @@ function myToDate(num) {
   return newDate;
 }
 
-function PatientInfo () {
+const PatientInfo = React.forwardRef((props, ref) => {
 
   const [patientInfo, setPatientInfo] = useState({});
   const parameters = useParams();
+  const [context, setContext] = useContext(ClusterContext);
 
   // const classes = useStyles();
 
@@ -64,9 +74,35 @@ function PatientInfo () {
     Axios.get("http://localhost:3001/api/get/info", {params: info}).then((response) => {
       setPatientInfo(response.data[0]);
     });
+    console.log(ref, 'DoctorPage.js hereee');
   }, []);
 
+  let currentTreatmentCentroid = context[parameters.pid];
+  let treatmentPlan = [];
+  console.log("THIS IS MY INFO: ", currentTreatmentCentroid);
+  if(currentTreatmentCentroid === undefined){
+    console.log("GENERATEE CLUSTER");
+  }else{
+    currentTreatmentCentroid = currentTreatmentCentroid.map((i) => {
+      return Math.round(i);
+    });
+    console.log("ROUNDED CENTROID",currentTreatmentCentroid);
+    getTreatment(currentTreatmentCentroid); 
+  }
+
   // console.log(patientInfo.medication_prescribed);
+  function getTreatment(ctc){
+      const info = {
+        data: ctc
+      }
+      Axios.get("http://localhost:3001/api/get/patient/treatment", {params: info}).then((response) => {
+      console.log(response.data);
+      treatmentPlan.push(response.data);
+      console.log("THIS IS THE TREATMENT PLAN", treatmentPlan);
+    });
+  }
+
+  
 
   return (
   <div>
@@ -121,6 +157,6 @@ function PatientInfo () {
       </div>
   </div>
   );
-}
+});
 
 export default PatientInfo;

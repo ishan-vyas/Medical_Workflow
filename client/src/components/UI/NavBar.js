@@ -110,22 +110,6 @@ function NavBar () {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          <div>
-            <IconButton aria-label="show 11 new notifications" color="inherit">
-              <Badge badgeContent={11} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            {/* <Menu>
-              <MenuItem>
-                <IconButton aria-label="show 11 new notifications" color="inherit">
-                  <Badge badgeContent={11} color="secondary">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-              </MenuItem>
-            </Menu> */}
-          </div>
         </Toolbar>
       </AppBar>
     </div>

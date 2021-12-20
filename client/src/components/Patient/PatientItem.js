@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -56,7 +56,7 @@ function getInitials(name){
   return initials;
 };
 
-export default function PatientItem(props) {
+const PatientItem = React.forwardRef((props, ref) => {
 
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -65,8 +65,13 @@ export default function PatientItem(props) {
     setExpanded(!expanded);
   };
 
+  useEffect(() => {
+    // console.log(ref.current, 'DoctorPage.js');
+  }, []);
+  
+
   return (
-    <Link to={`/PatientInfo/${props.pid.toString()}`}>
+    <Link to={`/PatientInfo/${props.pid.toString()}`} >
       <Card className={classes.root}>
         <CardHeader
           avatar={
@@ -85,4 +90,6 @@ export default function PatientItem(props) {
       </Card>
     </Link>
   );
-}
+});
+
+export default PatientItem;
