@@ -66,7 +66,7 @@ export default function PatientItem(props) {
   };
 
   return (
-    <Link to={`PatientInfo/${props.pid.toString()}`}>
+    <Link to={`/PatientInfo/${props.pid.toString()}`}>
       <Card className={classes.root}>
         <CardHeader
           avatar={

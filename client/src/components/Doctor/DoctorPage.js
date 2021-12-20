@@ -1,88 +1,65 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import Axios from 'axios';
-import { Box, CssBaseline } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import NavBar from '../UI/NavBar';
-import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
+import PatientItem from '../Patient/PatientItem';
 
 // To be changes for getting data from cluster
 function DoctorPage () {
   const [patientData, setPatientData] = useState({});
-  const parameters = useParams();
+  const [showCluster, setShowCluster] = useState(false);
+  const [disabledB, setDisabledB] = useState(true);
 
+  console.log(patientData);
   useEffect(() => {
     Axios.get("http://localhost:3001/api/get/conditions").then((response) => {
-      // console.log(response.data);
+      console.log("HELLO", response.data);
       setPatientData(response.data);
+      setDisabledB(false);
     });
   }, []);
 
-  const getClusters = () => {
-    let clusterIndex = {};
-    for(var i = 0; i < patientData.clusters.length; i++){
-      clusterIndex[i] = patientData.clusters[i].clusterInd;
-    }
-    console.log("Here: ", clusterIndex);
+  function getClusters(){
+    setShowCluster(true);
+  }
 
-    let patientIndex = [ [], [], [], [], []];
-    for(var j = 0; j < patientData.clusters.length; j++){
-      // console.log("j : ", j);
-      // console.log("len : ",clusterIndex[j].length);
-      for(var k = 0; k < clusterIndex[j].length; k++){
-        // console.log("RUNN",patientData.indexMap[clusterIndex[j][k]]);
-        patientIndex[j][k] = patientData.indexMap[clusterIndex[j][k]];
-        // console.log(patientIndex[j][k]);
-      }
-    }
-    console.log(patientIndex);
-
-    
-
-    let patientInfo = [[],[],[],[],[]];
-
-    async function storePat(i, inf){
-        await Axios.get("http://localhost:3001/api/get/info", {params: inf}).then((response) => {
-            console.log(response.data[0]);
-            patientInfo[i].push(response.data[0]);
-        });
-    }
-    for(var h = 0; h < patientIndex.length; h++){
-      for(var n = 0; n < clusterIndex[h].length; n++){
-        let info = { id: patientIndex[h][n] };
-        // get the patient and store it in the cluster in patienInfo
-        storePat(h, info);
-      }
-    }
-    console.log("Test: ",patientInfo);
-    
-    // console.log(clusterIndex);
-    // console.log(patientIndex);
-    // console.log(patientInfo);
-  };
+  function printCluster(i){
+    return (patientData[i].map((item) => {
+      return <PatientItem 
+        key={item.pid}
+        pid={item.pid}
+        name={item.name}
+        age={item.age}
+    />
+    }));
+  }
 
   return (
   <div>
       <CssBaseline />
       <NavBar />
       <div>
-        <Button variant="contained" color="primary" onClick={getClusters}>Generate Clusters</Button>
-        <Button variant="contained" color="primary">Generate Schedule</Button>
+        <Button variant="contained" color="primary" onClick={getClusters} disabled={disabledB}>Generate Clusters</Button>
         <div>
           <h1>Cluster 1</h1>
-          <></>
+          {showCluster && printCluster(0)}
         </div>
         <div>
           <h1>Cluster 2</h1>
+          {showCluster && printCluster(1)}
         </div>
         <div>
           <h1>Cluster 3</h1>
+          {showCluster && printCluster(2)}
         </div>
         <div>
           <h1>Cluster 4</h1> 
+          {showCluster && printCluster(3)}
         </div>
         <div>
           <h1>Cluster 5</h1> 
+          {showCluster && printCluster(4)}
         </div>
       </div>
       <div>
