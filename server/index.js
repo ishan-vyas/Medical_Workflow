@@ -63,15 +63,32 @@ app.get("/information", (req, res) => {
 })*/
 
 app.get("/api/get/info", (req, res) => {
-    console.log(req.query.id);
+    // console.log(req.query.id);
     givenPid = parseInt(req.query.id);
     const sqlSelect = "SELECT * FROM patient, conditions WHERE patient.pid=? AND conditions.patient_id=?;";
     db.query(sqlSelect, [givenPid, givenPid], (err, result) => {
         if (err) throw err;
-        console.log(result);
+        // console.log(result);
         res.send(result);
     });
 });
+
+app.put("/api/update", (req,res) => {
+    givenPid = req.body.pid;
+    givenLastVisit = req.body.last_visit;
+    givenDisease = req.body.disease;
+    givenHealthIssue = req.body.health_issue;
+    givenMedication = req.body.medication_prescribed;
+    givenLabTest = req.body.labtest_result;
+    givenMRCT = req.body.mr_ct_indication;
+    givenFollowUp = req.body.follow_up_visit;
+    const sqlUpdate = "UPDATE conditions SET last_visit=?, diseases=?, health_issues=?, medication_prescribed=?, labtest_results=?, mr_ct_indication=?, followup_visit=? WHERE patient_id=?";
+    db.query(sqlUpdate, [givenLastVisit, givenDisease, givenHealthIssue, givenMedication, givenLabTest, givenMRCT, givenFollowUp, givenPid], (err, result) => {
+        if (err) throw err;
+        console.log(result);
+    });
+
+}); 
 
 app.post("/api/insert", (req, res) => {
 
@@ -95,11 +112,11 @@ app.post("/api/insert", (req, res) => {
         "INSERT INTO conditions (patient_id, last_visit, diseases, health_issues, medication_prescribed, labtest_results, mr_ct_indication, followup_visit) VALUES ((SELECT patient.pid FROM patient WHERE patient.sin=?),?,?,?,?,?,?,?);"
     db.query(sqlInsertPatient, [givenPid, givenSin, givenName, givenAge, givenAddress, givenPhone], (err, result) => {
         if (err) throw err;
-        console.log(result);
+        // console.log(result);
     });
     db.query(sqlInsertConditions, [givenSin, givenLastVisit, givenDisease, givenHealthIssue, givenMedication, givenLabTest, givenMRCT, givenFollowUp], (err, result) => {
         if (err) throw err;
-        console.log(result);
+        // console.log(result);
         res.send(result);
     });
     
