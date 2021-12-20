@@ -119,20 +119,60 @@ app.get("/api/get/conditions", (req,res) => {
 
         let vectors = [];
         for (let i = 0 ; i < result.length ; i++) {
-            vectors[i] = [ result[i]['last_visit'], result[i]['diseases'], result[i]['health_issues'], result[i]['medication_prescribed'], result[i]['labtest_results'], result[i]['mr_ct_indication'], result[i]['followup_visit'],];
+            vectors[i] = [ result[i]['diseases'], result[i]['health_issues'], result[i]['medication_prescribed'], result[i]['labtest_results'], result[i]['mr_ct_indication'],];
         }
 
+        let clusterIndex = {};
+        let patientIndex = [ [], [], [], [], []];
+        let patientInfo = [[],[],[],[],[]];
         kmeans.clusterize(vectors, {k: 5}, (err1,res1) => {
             if (err1) console.error(err1);
             else // console.log('%o',res1);
-            res.send(
-                {
-                    indexMap: indexMap,
-                    data: result,
-                    clusters: res1
+            for(var i = 0; i < res1.length; i++){
+                clusterIndex[i] = res1[i].clusterInd;
+            }
+            // console.log("Here: ", clusterIndex);
+
+            for(var j = 0; j < res1.length; j++){
+            // console.log("j : ", j);
+            // console.log("len : ",clusterIndex[j].length);
+                for(var k = 0; k < clusterIndex[j].length; k++){
+                    // console.log("RUNN",patientData.indexMap[clusterIndex[j][k]]);
+                    patientIndex[j][k] = indexMap[clusterIndex[j][k]];
+                    // console.log(patientIndex[j][k]);
                 }
-            );
+            }
+            // console.log("PATIENT : ", patientIndex);
+
+            async function storePat(i, inf){
+                let givenPid = inf;
+                const sqlSelect = "SELECT * FROM patient WHERE patient.pid=?";
+
+                return new Promise((resolve, reject) => {
+                    db.query(sqlSelect, [givenPid], (err2, result2) => {
+                        if (err2) throw err2;
+                        // console.log("result2" , result2);
+                        patientInfo[i].push(result2[0]);
+                        resolve();
+                    });
+                  });
+            }
+
+            async function runQueries(){
+                for(var h = 0; h < patientIndex.length; h++){
+                    for(var n = 0; n < clusterIndex[h].length; n++){
+                        let info = patientIndex[h][n];
+                        // get the patient and store it in the cluster in patienInfo
+                        await storePat(h, info);
+                    }
+                }
+                // console.log("INFO FROM RUN QUERIES : ", patientInfo);
+                res.send(patientInfo);
+            }
+            runQueries();
+
         });
+
     });
 });
 
