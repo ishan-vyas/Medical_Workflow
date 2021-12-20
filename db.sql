@@ -144,7 +144,7 @@ CREATE TABLE `patient_clusters` (
   `mr_ct_indication` int DEFAULT NULL,
   `followup_visit` int DEFAULT NULL,
   PRIMARY KEY (`cluster_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,7 +170,7 @@ CREATE TABLE `problem_treatments` (
   `problem_detail_id` int NOT NULL,
   `treatment_name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +179,7 @@ CREATE TABLE `problem_treatments` (
 
 LOCK TABLES `problem_treatments` WRITE;
 /*!40000 ALTER TABLE `problem_treatments` DISABLE KEYS */;
-INSERT INTO `problem_treatments` VALUES (1,'Diseases',1,'Insulin'),(2,'Diseases',2,'Chemotherapy'),(3,'Diseases',3,'Liquids, Rest, Painkillers'),(4,'Diseases',4,'ART Medicine'),(5,'Diseases',5,'ART Medicine'),(6,'Diseases',6,'Rest'),(7,'Health Issues',1,'Inhaler'),(8,'Health Issues',2,'Inhaler'),(9,'Health Issues',3,'Statins'),(10,'Health Issues',4,'Rest'),(11,'Medication Prescribed',2,'Prescribe appropriate Medicine'),(12,'Lab Test Results',1,'Appeal expert attention'),(13,'Lab Test Results',2,'Schedule appointment with family doctor'),(14,'Lab Test Results',3,'Consult pharmacist or doctor'),(15,'Lab Test Results',4,'Rest'),(16,'MR/CT Images Indications',1,'Appeal expert attention'),(17,'MR/CT Images Indications',2,'Speak with family doctor'),(18,'MR/CT Images Indications',3,'Rest');
+INSERT INTO `problem_treatments` VALUES (1,'Diseases',1,'Insulin'),(2,'Diseases',2,'Chemotherapy'),(3,'Diseases',3,'Liquids, Rest, Painkillers'),(4,'Diseases',4,'ART Medicine'),(5,'Diseases',5,'ART Medicine'),(6,'Diseases',6,'Rest'),(7,'Health Issues',1,'Inhaler'),(8,'Health Issues',2,'Inhaler'),(9,'Health Issues',3,'Statins'),(10,'Health Issues',4,'Rest'),(11,'Medication Prescribed',2,'Prescribe appropriate Medicine'),(12,'Lab Test Results',1,'Appeal expert attention'),(13,'Lab Test Results',2,'Schedule appointment with family doctor'),(14,'Lab Test Results',3,'Consult pharmacist or doctor'),(15,'Lab Test Results',4,'Rest'),(16,'MR/CT Images Indications',1,'Appeal expert attention'),(17,'MR/CT Images Indications',2,'Speak with family doctor'),(18,'MR/CT Images Indications',3,'Rest'),(19,'Medication Prescribed',1,'Rest');
 /*!40000 ALTER TABLE `problem_treatments` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -192,4 +192,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-19 21:41:10
+-- Dump completed on 2021-12-20 14:55:11
